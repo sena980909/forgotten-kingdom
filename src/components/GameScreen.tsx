@@ -1,11 +1,19 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useGameState } from "@/hooks/useGameState";
 import StatusBar from "./StatusBar";
 import StoryText from "./StoryText";
 import ChoiceList from "./ChoiceList";
 import ExplanationModal from "./ExplanationModal";
+
+const CHAPTER_BG: Record<number, string> = {
+  1: "/ch1.jpg",
+  2: "/ch2.jpg",
+  3: "/ch3.jpg",
+  4: "/ch4.jpg",
+  5: "/ch5.jpg",
+};
 
 interface GameScreenProps {
   onReturnToTitle: () => void;
@@ -39,6 +47,11 @@ export default function GameScreen({ onReturnToTitle }: GameScreenProps) {
     }
   }, [currentScene, advanceScene]);
 
+  const bgImage = useMemo(() => {
+    if (!gameState) return undefined;
+    return CHAPTER_BG[gameState.currentChapter];
+  }, [gameState?.currentChapter]);
+
   if (!gameState) return null;
 
   const scene = currentScene;
@@ -63,8 +76,19 @@ export default function GameScreen({ onReturnToTitle }: GameScreenProps) {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950 flex flex-col">
+    <div className="min-h-screen bg-zinc-950 flex flex-col relative">
+      {/* Chapter Background Image */}
+      {bgImage && (
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
+          style={{ backgroundImage: `url(${bgImage})` }}
+        >
+          <div className="absolute inset-0 bg-black/70" />
+        </div>
+      )}
+
       {/* Status Bar */}
+      <div className="relative z-10 flex flex-col flex-1">
       <StatusBar
         gameState={gameState}
         chapterTitle={`Ch.${chapter.id} ${chapter.title} - ${chapter.subtitle}`}
@@ -83,7 +107,7 @@ export default function GameScreen({ onReturnToTitle }: GameScreenProps) {
           )}
 
           {/* Story Text Box */}
-          <div className="bg-zinc-900/80 border border-zinc-800 rounded-xl p-4 sm:p-8 shadow-lg min-h-[200px]">
+          <div className="bg-zinc-900/90 backdrop-blur-sm border border-zinc-800 rounded-xl p-4 sm:p-8 shadow-lg min-h-[200px]">
             {scene.isEnding ? (
               /* ===== Chapter Ending Screen ===== */
               <div>
@@ -168,6 +192,8 @@ export default function GameScreen({ onReturnToTitle }: GameScreenProps) {
             )}
           </div>
         </div>
+      </div>
+
       </div>
 
       {/* Explanation Modal */}
