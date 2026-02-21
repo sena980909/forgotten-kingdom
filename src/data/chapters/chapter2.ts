@@ -4,7 +4,7 @@ const chapter2: Chapter = {
   id: 2,
   title: "수몰된 도서관",
   subtitle: "JPA와 데이터의 흐름",
-  springTopic: "JPA, ORM, Entity, 영속성 컨텍스트, 연관관계, N+1, JPQL",
+  springTopic: "JPA, ORM, Entity, 영속성 컨텍스트, 연관관계, N+1, JPQL, Fetch Type",
   firstSceneId: "intro",
   scenes: {
     intro: {
@@ -34,7 +34,7 @@ const chapter2: Chapter = {
           isCorrect: true,
           explanation:
             "JPA(Java Persistence API)는 자바 ORM(Object-Relational Mapping)의 표준 인터페이스입니다. Hibernate, EclipseLink 등이 JPA의 구현체이며, 객체와 RDB 테이블 간의 매핑을 자동으로 처리합니다.",
-          effect: { knowledge: 10 },
+          effect: { knowledge: 15 },
         },
         {
           id: "wrong_1a",
@@ -43,7 +43,7 @@ const chapter2: Chapter = {
           isCorrect: false,
           explanation:
             "JPA는 NoSQL이 아닌 관계형 데이터베이스(RDB)를 위한 ORM 표준입니다. NoSQL을 위해서는 Spring Data MongoDB 같은 별도의 기술을 사용합니다.",
-          effect: { knowledge: 2, hp: -10 },
+          effect: { hp: -10 },
         },
         {
           id: "wrong_1b",
@@ -52,7 +52,7 @@ const chapter2: Chapter = {
           isCorrect: false,
           explanation:
             "JPA는 SQL을 직접 작성하는 것이 아니라 객체와 테이블 간 매핑을 통해 SQL을 자동 생성하는 ORM 기술입니다. MyBatis는 SQL Mapper로, JPA와는 접근 방식이 다릅니다.",
-          effect: { knowledge: 2, hp: -10 },
+          effect: { hp: -10 },
         },
       ],
     },
@@ -85,7 +85,7 @@ const chapter2: Chapter = {
           isCorrect: true,
           explanation:
             "@Entity 어노테이션으로 JPA가 관리하는 엔티티 클래스임을 선언하고, @Id로 기본키를 지정합니다. @Column은 생략하면 필드명이 그대로 컬럼명으로 매핑되며, 컬럼명을 다르게 하고 싶을 때만 명시합니다.",
-          effect: { knowledge: 10 },
+          effect: { knowledge: 15 },
         },
         {
           id: "wrong_2a",
@@ -94,7 +94,7 @@ const chapter2: Chapter = {
           isCorrect: false,
           explanation:
             "@Column은 생략 가능합니다. JPA는 기본적으로 엔티티의 모든 필드를 테이블 컬럼에 매핑합니다. @Column은 컬럼명, 제약조건 등을 커스터마이징할 때만 필요합니다.",
-          effect: { knowledge: 2, hp: -10 },
+          effect: { hp: -10 },
         },
         {
           id: "wrong_2b",
@@ -103,7 +103,7 @@ const chapter2: Chapter = {
           isCorrect: false,
           explanation:
             "@Table은 테이블 이름을 지정하는 보조 어노테이션이며, @Entity를 대체할 수 없습니다. JPA 엔티티 선언에는 반드시 @Entity가 필요하고, @Table은 테이블명을 명시적으로 지정할 때 함께 사용합니다.",
-          effect: { knowledge: 2, hp: -10 },
+          effect: { hp: -10 },
         },
       ],
     },
@@ -136,7 +136,7 @@ const chapter2: Chapter = {
           isCorrect: true,
           explanation:
             "영속성 컨텍스트(Persistence Context)는 엔티티를 영구 저장하는 환경으로, 1차 캐시를 통해 같은 트랜잭션 내에서 동일한 식별자의 엔티티는 항상 같은 인스턴스를 반환합니다. 변경 감지(Dirty Checking), 지연 로딩 등의 기능도 제공합니다.",
-          effect: { knowledge: 12 },
+          effect: { knowledge: 15 },
         },
         {
           id: "wrong_3a",
@@ -145,7 +145,7 @@ const chapter2: Chapter = {
           isCorrect: false,
           explanation:
             "연결 풀(Connection Pool)은 DB 커넥션을 관리하는 별도의 개념입니다. 영속성 컨텍스트는 엔티티를 관리하는 1차 캐시로, DB 연결과는 다른 레벨에서 동작합니다.",
-          effect: { knowledge: 1, hp: -15 },
+          effect: { hp: -15 },
         },
         {
           id: "wrong_3b",
@@ -154,7 +154,7 @@ const chapter2: Chapter = {
           isCorrect: false,
           explanation:
             "영속성 컨텍스트는 파일 시스템이 아닙니다. 메모리상에서 엔티티를 관리하는 1차 캐시이며, 트랜잭션이 끝나면 사라집니다. 영구 저장은 데이터베이스가 담당합니다.",
-          effect: { knowledge: 1, hp: -15 },
+          effect: { hp: -15 },
         },
       ],
     },
@@ -187,7 +187,7 @@ const chapter2: Chapter = {
           isCorrect: true,
           explanation:
             "연관관계의 주인은 외래키가 있는 쪽, 즉 @ManyToOne이 붙은 쪽입니다. 주인만이 외래키를 등록, 수정, 삭제할 수 있으며, 주인이 아닌 쪽(@OneToMany)은 mappedBy로 주인을 지정하고 읽기만 가능합니다.",
-          effect: { knowledge: 13 },
+          effect: { knowledge: 15 },
         },
         {
           id: "wrong_4a",
@@ -196,7 +196,7 @@ const chapter2: Chapter = {
           isCorrect: false,
           explanation:
             "반대입니다. 외래키는 항상 '다(Many)' 쪽 테이블에 존재하므로, @ManyToOne이 연관관계의 주인입니다. @OneToMany 쪽은 mappedBy로 읽기 전용이 됩니다.",
-          effect: { knowledge: 2, hp: -10 },
+          effect: { hp: -10 },
         },
         {
           id: "wrong_4b",
@@ -205,7 +205,7 @@ const chapter2: Chapter = {
           isCorrect: false,
           explanation:
             "양쪽 모두 외래키를 관리하면 충돌이 발생합니다. 반드시 한쪽만 주인으로 지정하여 외래키를 관리해야 합니다. 주인이 아닌 쪽은 mappedBy를 통해 읽기만 가능합니다.",
-          effect: { knowledge: 2, hp: -10 },
+          effect: { hp: -10 },
         },
       ],
     },
@@ -247,7 +247,7 @@ const chapter2: Chapter = {
           isCorrect: false,
           explanation:
             "N+1 문제는 데이터 수의 제한과는 관련이 없습니다. 1번의 메인 쿼리 + N번의 추가 쿼리가 발생하는 성능 문제로, 데이터가 많을수록 심각해집니다. Fetch Join으로 한 번에 가져오는 것이 해결책입니다.",
-          effect: { knowledge: 2, hp: -10 },
+          effect: { hp: -10 },
         },
         {
           id: "wrong_5b",
@@ -256,7 +256,7 @@ const chapter2: Chapter = {
           isCorrect: false,
           explanation:
             "오히려 Lazy Loading이 N+1 문제의 주된 원인입니다. Lazy Loading으로 설정된 연관 엔티티에 실제로 접근할 때 개별 쿼리가 발생하기 때문입니다. Fetch Join이나 @EntityGraph로 해결해야 합니다.",
-          effect: { knowledge: 2, hp: -10 },
+          effect: { hp: -10 },
         },
       ],
     },
@@ -289,7 +289,7 @@ const chapter2: Chapter = {
           isCorrect: true,
           explanation:
             "JPQL(Java Persistence Query Language)은 엔티티 객체를 대상으로 하는 객체 지향 쿼리 언어입니다. SQL과 문법이 유사하지만, 테이블 이름 대신 엔티티 이름을, 컬럼명 대신 필드명을 사용합니다. 데이터베이스 방언에 독립적입니다.",
-          effect: { knowledge: 12 },
+          effect: { knowledge: 15 },
         },
         {
           id: "wrong_6a",
@@ -298,7 +298,7 @@ const chapter2: Chapter = {
           isCorrect: false,
           explanation:
             "JPQL은 SQL과 유사하지만 동일하지 않습니다. 가장 큰 차이는 JPQL은 엔티티 이름과 필드명을 사용하고, SQL은 테이블명과 컬럼명을 사용한다는 점입니다.",
-          effect: { knowledge: 1, hp: -10 },
+          effect: { hp: -10 },
         },
         {
           id: "wrong_6b",
@@ -307,7 +307,7 @@ const chapter2: Chapter = {
           isCorrect: false,
           explanation:
             "JPQL은 NoSQL과는 관련이 없습니다. JPA에서 관계형 데이터베이스의 엔티티를 조회하기 위한 객체 지향 쿼리 언어이며, SQL을 추상화한 것입니다.",
-          effect: { knowledge: 1, hp: -10 },
+          effect: { hp: -10 },
         },
       ],
     },
@@ -340,7 +340,7 @@ const chapter2: Chapter = {
           isCorrect: true,
           explanation:
             "Spring Data JPA의 JpaRepository를 상속하면 save, findById, findAll, delete 등 기본 CRUD 메서드가 자동으로 제공됩니다. 또한 메서드 이름 규칙(Query Method)을 따르면 findByName, findByAgeGreaterThan 등의 쿼리가 메서드 이름만으로 자동 생성됩니다.",
-          effect: { knowledge: 13 },
+          effect: { knowledge: 15 },
         },
         {
           id: "wrong_7a",
@@ -349,7 +349,7 @@ const chapter2: Chapter = {
           isCorrect: false,
           explanation:
             "Spring Data JPA의 가장 큰 장점은 SQL이나 JPQL을 직접 작성하지 않아도 메서드 이름만으로 쿼리가 자동 생성된다는 점입니다. @Query는 복잡한 쿼리가 필요할 때만 선택적으로 사용합니다.",
-          effect: { knowledge: 2, hp: -10 },
+          effect: { hp: -10 },
         },
         {
           id: "wrong_7b",
@@ -358,7 +358,7 @@ const chapter2: Chapter = {
           isCorrect: false,
           explanation:
             "하나의 Repository는 하나의 엔티티(테이블)를 담당합니다. JpaRepository<Member, Long>처럼 제네릭으로 엔티티 타입과 ID 타입을 지정해야 하며, 각 엔티티마다 별도의 Repository를 만들어야 합니다.",
-          effect: { knowledge: 2, hp: -10 },
+          effect: { hp: -10 },
         },
       ],
     },
@@ -367,12 +367,63 @@ const chapter2: Chapter = {
       id: "trial7_ch2_success",
       text: '봉인된 마법진이 눈부시게 빛나며 풀려나갔다! 일곱 번째 문양이 환하게 빛을 발했다.\n\n"완벽해! Spring Data JPA의 JpaRepository는 정말 놀라운 마법이야. 인터페이스만 정의하면 구현체가 자동으로 만들어지고, 메서드 이름만으로 쿼리가 생성되니까."\n\n"findByNameAndAge, findByPriceGreaterThan... 이름 규칙만 지키면 알아서 JPQL로 변환되는 거지."\n\n마법진에서 뿜어져 나온 빛이 도서관 전체로 퍼져나갔다.\n\n"모든 시련을 통과했어!"',
       speaker: "리포지아",
-      nextSceneId: "library_restored",
+      nextSceneId: "eighth_trial_ch2",
     },
 
     trial7_ch2_fail: {
       id: "trial7_ch2_fail",
       text: '봉인된 마법진이 약하게 진동했지만 완전히 풀리지는 않았다. 리포지아가 설명했다.\n\n"아니야. Spring Data JPA의 핵심은 자동화야. JpaRepository를 상속하면 기본 CRUD 메서드가 자동으로 제공되고, findByName처럼 메서드 이름 규칙을 따르면 쿼리가 자동 생성돼."\n\n물이 조금 차올랐다.\n\n"그리고 하나의 Repository는 하나의 엔티티만 담당해. 모든 테이블에 접근하는 건 아니야. 각 엔티티마다 별도의 Repository가 필요하지."',
+      speaker: "리포지아",
+      nextSceneId: "eighth_trial_ch2",
+    },
+
+    // ========== 8번 시련: Fetch Type ==========
+    eighth_trial_ch2: {
+      id: "eighth_trial_ch2",
+      text: '마법진이 풀리며 도서관 깊숙한 곳에 숨겨진 비밀의 방이 열렸다. 방 안에는 두 개의 거대한 거울이 마주 보고 서 있었다. 하나는 투명하여 뒤에 있는 모든 책이 즉시 보였고, 다른 하나는 불투명하여 손을 대야만 뒤의 책이 나타났다.\n\n리포지아가 두 거울 사이에 서며 말했다.\n\n"이 두 거울은 데이터를 불러오는 두 가지 방식을 상징해. 하나는 처음부터 모든 것을 보여주고, 다른 하나는 필요할 때만 보여주지."\n\n"JPA에서 연관 엔티티를 로딩하는 두 가지 전략, 즉 Fetch Type에 대해 설명해줄 수 있겠니?"',
+      speaker: "리포지아",
+      springConcept: "Fetch Type (LAZY vs EAGER)",
+      choices: [
+        {
+          id: "correct_8",
+          text: "LAZY는 연관 엔티티를 실제 접근 시점에 로딩하고, EAGER는 즉시 함께 로딩합니다. @ManyToOne의 기본값은 EAGER, @OneToMany의 기본값은 LAZY입니다.",
+          nextSceneId: "trial8_ch2_success",
+          isCorrect: true,
+          explanation:
+            "FetchType.LAZY는 프록시 객체로 대체하고 실제 사용 시점에 쿼리를 실행합니다. FetchType.EAGER는 연관 엔티티를 즉시 조인하여 함께 가져옵니다. 실무에서는 N+1 문제를 방지하기 위해 모든 연관관계를 LAZY로 설정하고, 필요할 때 Fetch Join을 사용하는 것이 권장됩니다.",
+          effect: { knowledge: 15 },
+        },
+        {
+          id: "wrong_8a",
+          text: "LAZY와 EAGER는 캐시 전략입니다. LAZY는 캐시를 사용하지 않고, EAGER는 항상 캐시에서 가져옵니다.",
+          nextSceneId: "trial8_ch2_fail",
+          isCorrect: false,
+          explanation:
+            "LAZY와 EAGER는 캐시 전략이 아니라 연관 엔티티의 로딩 시점을 결정하는 Fetch 전략입니다. LAZY는 지연 로딩(실제 접근 시 로딩), EAGER는 즉시 로딩(조회 시 함께 로딩)을 의미합니다.",
+          effect: { hp: -10 },
+        },
+        {
+          id: "wrong_8b",
+          text: "EAGER가 항상 더 좋습니다. 모든 데이터를 한 번에 가져오니까 성능이 좋아요.",
+          nextSceneId: "trial8_ch2_fail",
+          isCorrect: false,
+          explanation:
+            "EAGER가 항상 좋은 것은 아닙니다. 불필요한 연관 데이터까지 항상 로딩하면 오히려 성능이 저하됩니다. 실무에서는 LAZY를 기본으로 사용하고, 필요한 경우에만 Fetch Join으로 함께 조회하는 것이 권장됩니다.",
+          effect: { hp: -15 },
+        },
+      ],
+    },
+
+    trial8_ch2_success: {
+      id: "trial8_ch2_success",
+      text: '투명한 거울과 불투명한 거울이 동시에 빛나며 조화를 이루었다. 여덟 번째 문양이 찬란하게 빛을 발했다.\n\n"완벽해! 불투명한 거울(LAZY)은 필요할 때만 뒤의 책을 보여주고, 투명한 거울(EAGER)은 항상 모든 것을 보여주지. 실무에서는 LAZY를 기본으로 쓰고, 정말 필요할 때만 Fetch Join으로 한 번에 가져오는 것이 좋아."\n\n"@ManyToOne은 기본이 EAGER라서, 실무에서는 반드시 LAZY로 바꿔줘야 해. 이걸 놓치면 N+1 문제가 터질 수 있거든."\n\n여덟 번째 문양이 빛나며, 도서관의 모든 봉인이 풀렸다!\n\n"모든 시련을 통과했어!"',
+      speaker: "리포지아",
+      nextSceneId: "library_restored",
+    },
+
+    trial8_ch2_fail: {
+      id: "trial8_ch2_fail",
+      text: '두 거울의 빛이 어지럽게 깜빡였다. 리포지아가 차분히 설명했다.\n\n"아니야. LAZY와 EAGER는 캐시가 아니라 연관 엔티티의 로딩 시점을 결정하는 전략이야. LAZY는 실제로 접근할 때 쿼리가 나가고, EAGER는 처음부터 함께 조인해서 가져오는 거지."\n\n물이 조금 차올랐다.\n\n"그리고 EAGER가 항상 좋은 건 절대 아니야. 불필요한 데이터까지 매번 가져오면 오히려 성능이 나빠져. 실무에서는 모든 연관관계를 LAZY로 설정하고, 필요할 때 Fetch Join을 쓰는 것이 정석이야."',
       speaker: "리포지아",
       nextSceneId: "library_restored",
     },
@@ -380,20 +431,20 @@ const chapter2: Chapter = {
     // ========== 도서관 복원 ==========
     library_restored: {
       id: "library_restored",
-      text: "일곱 개의 문양이 동시에 빛나며 도서관 전체가 환하게 밝아졌다. 차올랐던 물이 빠르게 빠져나가기 시작했다.\n\n물이 빠진 자리에는 아름다운 대리석 바닥이 드러났고, 정교한 모자이크가 새겨져 있었다. 물에 잠겨 있던 책장들이 하나둘 모습을 드러내며, 젖어있던 서적들이 마법의 힘으로 건조되어 원래의 빛을 되찾았다.\n\n도서관 중앙의 수정구가 눈부시게 빛나며 천천히 허공에 떠올랐다. 수정구 안의 빛의 점들이 활발하게 움직이며 도서관 곳곳으로 데이터의 흐름을 만들어냈다.\n\n바닥의 모자이크가 빛을 발하며 봉인이 풀리는 소리가 도서관 전체에 울려 퍼졌다.",
+      text: "여덟 개의 문양이 동시에 빛나며 도서관 전체가 환하게 밝아졌다. 차올랐던 물이 빠르게 빠져나가기 시작했다.\n\n물이 빠진 자리에는 아름다운 대리석 바닥이 드러났고, 정교한 모자이크가 새겨져 있었다. 물에 잠겨 있던 책장들이 하나둘 모습을 드러내며, 젖어있던 서적들이 마법의 힘으로 건조되어 원래의 빛을 되찾았다.\n\n도서관 중앙의 수정구가 눈부시게 빛나며 천천히 허공에 떠올랐다. 수정구 안의 빛의 점들이 활발하게 움직이며 도서관 곳곳으로 데이터의 흐름을 만들어냈다.\n\n바닥의 모자이크가 빛을 발하며 봉인이 풀리는 소리가 도서관 전체에 울려 퍼졌다.",
       nextSceneId: "librarian_farewell",
     },
 
     librarian_farewell: {
       id: "librarian_farewell",
-      text: '리포지아의 반투명했던 모습이 조금 더 또렷해졌다. 그녀의 눈에 눈물이 맺혀 있었다.\n\n"고마워... 500년 만에 이 도서관이 다시 숨을 쉬고 있어. 데이터의 흐름이 복원됐어."\n\n그녀가 빛나는 카탈로그를 당신에게 건넸다.\n\n"이건 내 카탈로그야. 네가 배운 JPA의 지식이 담겨 있어. 앞으로의 여정에서 분명 도움이 될 거야."\n\n"왕국에는 아직 복원해야 할 곳이 많이 남아있어. 다음 봉인은... 화산의 대장간이라고 들었어. 보안의 마법이 걸려 있다더군."\n\n"부디 조심해. 그리고... 이 도서관에 다시 방문해줘. 언제든 환영할게."\n\n리포지아가 미소 지으며 책장 사이로 사라졌다.',
+      text: '리포지아의 반투명했던 모습이 조금 더 또렷해졌다. 그녀의 눈에 눈물이 맺혀 있었다.\n\n"고마워... 500년 만에 이 도서관이 다시 숨을 쉬고 있어. 데이터의 흐름이 복원됐어."\n\n그녀가 빛나는 카탈로그를 당신에게 건넸다.\n\n"이건 내 카탈로그야. 네가 배운 JPA의 지식이 담겨 있어. 앞으로의 여정에서 분명 도움이 될 거야."\n\n"왕국에는 아직 복원해야 할 곳이 많이 남아있어. 다음 봉인은... 망각의 탑이라고 들었어. 소통의 마법이 걸려 있다더군."\n\n"부디 조심해. 그리고... 이 도서관에 다시 방문해줘. 언제든 환영할게."\n\n리포지아가 미소 지으며 책장 사이로 사라졌다.',
       speaker: "리포지아",
       nextSceneId: "chapter2_end",
     },
 
     chapter2_end: {
       id: "chapter2_end",
-      text: "[ Chapter 2 완료 ]\n\n수몰된 도서관의 봉인이 해제되었습니다.\n유령 사서 리포지아의 카탈로그를 획득했습니다.\n\n학습한 Spring 개념:\n- JPA & ORM: 자바 ORM 표준 인터페이스, Hibernate가 대표 구현체\n- Entity Mapping: @Entity로 클래스-테이블 매핑, @Id로 기본키 지정\n- Persistence Context: 영속성 컨텍스트, 1차 캐시와 동일성 보장\n- 연관관계 매핑: @ManyToOne이 연관관계의 주인, mappedBy로 양방향 설정\n- N+1 Problem: 추가 쿼리 폭발 문제, Fetch Join과 @EntityGraph로 해결\n- JPQL: 엔티티 객체 대상의 객체 지향 쿼리 언어\n- Spring Data JPA: JpaRepository 상속으로 CRUD 자동 제공, 메서드 이름 기반 쿼리 생성\n\n다음 챕터에서 계속됩니다...",
+      text: "[ Chapter 2 완료 ]\n\n수몰된 도서관의 봉인이 해제되었습니다.\n유령 사서 리포지아의 카탈로그를 획득했습니다.\n\n학습한 Spring 개념:\n- JPA & ORM: 자바 ORM 표준 인터페이스, Hibernate가 대표 구현체\n- Entity Mapping: @Entity로 클래스-테이블 매핑, @Id로 기본키 지정\n- Persistence Context: 영속성 컨텍스트, 1차 캐시와 동일성 보장\n- 연관관계 매핑: @ManyToOne이 연관관계의 주인, mappedBy로 양방향 설정\n- N+1 Problem: 추가 쿼리 폭발 문제, Fetch Join과 @EntityGraph로 해결\n- JPQL: 엔티티 객체 대상의 객체 지향 쿼리 언어\n- Spring Data JPA: JpaRepository 상속으로 CRUD 자동 제공, 메서드 이름 기반 쿼리 생성\n- Fetch Type: LAZY(지연 로딩) vs EAGER(즉시 로딩), 실무에서는 LAZY 기본 권장\n\n다음 챕터에서 계속됩니다...",
       isEnding: true,
     },
   },

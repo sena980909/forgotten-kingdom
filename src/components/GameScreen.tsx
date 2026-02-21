@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { useGameState } from "@/hooks/useGameState";
 import StatusBar from "./StatusBar";
 import StoryText from "./StoryText";
@@ -27,10 +27,14 @@ export default function GameScreen({ onReturnToTitle }: GameScreenProps) {
     currentScene,
     currentChapter,
     hasNextChapter,
+    isGameOver,
+    levelUpInfo,
     makeChoice,
     proceedAfterChoice,
     advanceScene,
     startNextChapter,
+    retryChapter,
+    dismissLevelUp,
     deleteSave,
   } = useGameState();
 
@@ -46,6 +50,13 @@ export default function GameScreen({ onReturnToTitle }: GameScreenProps) {
       advanceScene();
     }
   }, [currentScene, advanceScene]);
+
+  // Auto-dismiss level up notification after 3 seconds
+  useEffect(() => {
+    if (!levelUpInfo) return;
+    const timer = setTimeout(dismissLevelUp, 3000);
+    return () => clearTimeout(timer);
+  }, [levelUpInfo, dismissLevelUp]);
 
   const bgImage = useMemo(() => {
     if (!gameState) return undefined;
@@ -205,6 +216,53 @@ export default function GameScreen({ onReturnToTitle }: GameScreenProps) {
             proceedAfterChoice();
           }}
         />
+      )}
+
+      {/* Game Over Overlay */}
+      {isGameOver && !showExplanation && (
+        <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
+          <div className="max-w-md w-full text-center">
+            <div className="text-6xl mb-4">💀</div>
+            <h2 className="text-3xl font-bold text-red-500 mb-2">Game Over</h2>
+            <p className="text-zinc-400 mb-2">HP가 0이 되었습니다.</p>
+            <p className="text-zinc-500 text-sm mb-8">
+              틀린 답의 대가로 모든 체력을 잃었습니다...<br />
+              하지만 포기하지 마세요. 실패는 최고의 스승입니다.
+            </p>
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={() => {
+                  setIsTypingComplete(false);
+                  retryChapter();
+                }}
+                className="w-full py-3 bg-amber-700 hover:bg-amber-600 text-white rounded-lg font-bold transition-colors"
+              >
+                챕터 처음부터 다시 도전
+              </button>
+              <button
+                onClick={onReturnToTitle}
+                className="w-full py-3 border border-zinc-700 hover:border-amber-700 text-zinc-400 hover:text-amber-400 rounded-lg font-bold transition-colors"
+              >
+                타이틀로 돌아가기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Level Up Notification */}
+      {levelUpInfo && (
+        <div
+          className="fixed top-4 left-1/2 -translate-x-1/2 z-50 animate-bounce cursor-pointer"
+          onClick={dismissLevelUp}
+        >
+          <div className="bg-amber-900/90 border border-amber-600 rounded-xl px-6 py-3 shadow-lg shadow-amber-900/50 text-center">
+            <div className="text-amber-400 font-bold text-lg">Level Up!</div>
+            <div className="text-amber-300 text-sm">
+              Lv.{levelUpInfo.newLevel} 달성! HP가 {levelUpInfo.newMaxHp}으로 회복되었습니다.
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

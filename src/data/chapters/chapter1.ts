@@ -34,7 +34,7 @@ const chapter1: Chapter = {
           isCorrect: true,
           explanation:
             "Spring Boot는 @SpringBootApplication 하나로 자동 설정, 컴포넌트 스캔, 내장 톰캣 서버를 제공합니다.",
-          effect: { knowledge: 10 },
+          effect: { knowledge: 15 },
         },
         {
           id: "wrong_1a",
@@ -43,7 +43,7 @@ const chapter1: Chapter = {
           isCorrect: false,
           explanation:
             "Spring Boot는 새로운 프레임워크가 아니라, Spring Framework 위에 구축된 도구입니다. 설정을 간소화하여 빠르게 시작할 수 있게 해줍니다.",
-          effect: { knowledge: 2, hp: -10 },
+          effect: { hp: -10 },
         },
         {
           id: "wrong_1b",
@@ -52,7 +52,7 @@ const chapter1: Chapter = {
           isCorrect: false,
           explanation:
             "Spring Boot는 백엔드 서버 애플리케이션 개발에 특화되어 있습니다. 프론트엔드는 별도의 기술(React, Vue 등)을 사용합니다.",
-          effect: { knowledge: 1, hp: -15 },
+          effect: { hp: -15 },
         },
       ],
     },
@@ -85,7 +85,7 @@ const chapter1: Chapter = {
           isCorrect: true,
           explanation:
             "IoC는 제어의 역전입니다. 개발자가 직접 new로 객체를 생성하지 않고, Spring IoC 컨테이너가 객체(Bean)를 생성하고 관리합니다.",
-          effect: { knowledge: 10 },
+          effect: { knowledge: 15 },
         },
         {
           id: "wrong_2a",
@@ -94,7 +94,7 @@ const chapter1: Chapter = {
           isCorrect: false,
           explanation:
             "IoC는 코드 실행 순서와 관련이 없습니다. '제어'란 객체의 생성과 의존성 관리에 대한 제어권을 의미하며, 이것을 프레임워크에 '역전'시키는 것입니다.",
-          effect: { knowledge: 2, hp: -10 },
+          effect: { hp: -10 },
         },
         {
           id: "wrong_2b",
@@ -103,7 +103,7 @@ const chapter1: Chapter = {
           isCorrect: false,
           explanation:
             "IoC는 네트워크와 관련이 없습니다. 객체의 생성, 의존성 주입, 생명주기를 개발자 대신 컨테이너가 관리하는 설계 원칙입니다.",
-          effect: { knowledge: 1, hp: -15 },
+          effect: { hp: -15 },
         },
       ],
     },
@@ -145,7 +145,7 @@ const chapter1: Chapter = {
           isCorrect: false,
           explanation:
             "필드 주입(@Autowired)은 간편하지만, 불변성을 보장할 수 없고 단위 테스트가 어렵습니다. Spring 팀은 생성자 주입을 권장합니다.",
-          effect: { knowledge: 5, hp: -5 },
+          effect: { hp: -10 },
         },
         {
           id: "wrong_3b",
@@ -154,7 +154,7 @@ const chapter1: Chapter = {
           isCorrect: false,
           explanation:
             "XML 설정은 레거시 방식입니다. 현대 Spring에서는 어노테이션 기반 설정과 생성자 주입을 권장합니다.",
-          effect: { knowledge: 2, hp: -10 },
+          effect: { hp: -10 },
         },
       ],
     },
@@ -194,7 +194,7 @@ const chapter1: Chapter = {
           isCorrect: true,
           explanation:
             "Spring Bean은 IoC 컨테이너가 생성하고 관리하는 객체입니다. 기본 Scope인 Singleton은 컨테이너 당 하나의 인스턴스만 생성하여 메모리 효율성과 일관성을 보장합니다.",
-          effect: { knowledge: 12 },
+          effect: { knowledge: 15 },
         },
         {
           id: "wrong_4a",
@@ -203,7 +203,7 @@ const chapter1: Chapter = {
           isCorrect: false,
           explanation:
             "모든 자바 객체가 Bean은 아닙니다. Spring Bean은 IoC 컨테이너가 생성하고 관리하는 객체만을 의미합니다. new로 직접 생성한 객체는 Spring Bean이 아닙니다.",
-          effect: { knowledge: 2, hp: -10 },
+          effect: { hp: -10 },
         },
         {
           id: "wrong_4b",
@@ -212,7 +212,7 @@ const chapter1: Chapter = {
           isCorrect: false,
           explanation:
             "Bean은 데이터베이스 엔티티와는 다른 개념입니다. Spring Bean은 컨테이너가 관리하는 모든 종류의 객체(Service, Repository, Controller 등)를 포괄하는 개념입니다.",
-          effect: { knowledge: 1, hp: -15 },
+          effect: { hp: -15 },
         },
       ],
     },
@@ -245,7 +245,7 @@ const chapter1: Chapter = {
           isCorrect: true,
           explanation:
             "@ComponentScan은 지정된 베이스 패키지부터 하위 패키지까지 스캔하여 스테레오타입 어노테이션(@Component 등)이 붙은 클래스를 자동으로 Bean으로 등록합니다. @SpringBootApplication에 이미 포함되어 있습니다.",
-          effect: { knowledge: 12 },
+          effect: { knowledge: 15 },
         },
         {
           id: "wrong_5a",
@@ -254,7 +254,7 @@ const chapter1: Chapter = {
           isCorrect: false,
           explanation:
             "XML에 일일이 등록하는 것은 과거의 방식입니다. Component Scan을 사용하면 어노테이션만 붙여두면 자동으로 Bean이 등록됩니다.",
-          effect: { knowledge: 2, hp: -10 },
+          effect: { hp: -10 },
         },
         {
           id: "wrong_5b",
@@ -263,7 +263,7 @@ const chapter1: Chapter = {
           isCorrect: false,
           explanation:
             "모든 클래스를 Bean으로 등록하지는 않습니다. @Component 등 스테레오타입 어노테이션이 붙은 클래스만 선별적으로 Bean으로 등록합니다. 지정된 패키지 범위 내에서만 스캔합니다.",
-          effect: { knowledge: 2, hp: -10 },
+          effect: { hp: -10 },
         },
       ],
     },
@@ -296,7 +296,7 @@ const chapter1: Chapter = {
           isCorrect: true,
           explanation:
             "@Configuration 클래스는 CGLIB 프록시로 감싸져, @Bean 메서드를 여러 번 호출해도 같은 인스턴스를 반환합니다. @Component는 일반 Bean 등록용이며 이런 프록시 보장이 없습니다.",
-          effect: { knowledge: 13 },
+          effect: { knowledge: 15 },
         },
         {
           id: "wrong_6a",
@@ -305,7 +305,7 @@ const chapter1: Chapter = {
           isCorrect: false,
           explanation:
             "둘은 동일하지 않습니다. @Configuration은 CGLIB 프록시를 통해 @Bean 메서드의 싱글톤을 보장하지만, @Component에서는 이 보장이 없어 @Bean 메서드 호출 시 매번 새 인스턴스가 생성될 수 있습니다.",
-          effect: { knowledge: 2, hp: -10 },
+          effect: { hp: -10 },
         },
         {
           id: "wrong_6b",
@@ -314,7 +314,7 @@ const chapter1: Chapter = {
           isCorrect: false,
           explanation:
             "오히려 @Configuration이 @Component를 포함(메타 어노테이션)합니다. @Configuration은 @Component의 특수한 형태로, 추가적인 설정 기능(CGLIB 프록시, @Bean 싱글톤 보장)을 제공합니다.",
-          effect: { knowledge: 2, hp: -10 },
+          effect: { hp: -10 },
         },
       ],
     },
@@ -347,7 +347,7 @@ const chapter1: Chapter = {
           isCorrect: true,
           explanation:
             "ApplicationContext는 BeanFactory를 확장한 Spring IoC 컨테이너의 핵심 인터페이스입니다. Bean 관리 외에도 국제화(MessageSource), 이벤트 발행(ApplicationEventPublisher), 리소스 로딩 등 엔터프라이즈 기능을 제공합니다.",
-          effect: { knowledge: 13 },
+          effect: { knowledge: 15 },
         },
         {
           id: "wrong_7a",
@@ -356,7 +356,7 @@ const chapter1: Chapter = {
           isCorrect: false,
           explanation:
             "ApplicationContext는 브라우저 환경과는 전혀 관련이 없습니다. Spring의 IoC 컨테이너 구현체로, 서버 측에서 Bean의 생성과 관리를 담당하는 핵심 컴포넌트입니다.",
-          effect: { knowledge: 1, hp: -15 },
+          effect: { hp: -15 },
         },
         {
           id: "wrong_7b",
@@ -365,7 +365,7 @@ const chapter1: Chapter = {
           isCorrect: false,
           explanation:
             "메인 메서드가 있는 클래스는 보통 @SpringBootApplication이 붙은 진입점 클래스입니다. ApplicationContext는 이 클래스가 아니라, Spring이 Bean을 관리하는 IoC 컨테이너 자체를 의미합니다.",
-          effect: { knowledge: 2, hp: -10 },
+          effect: { hp: -10 },
         },
       ],
     },
@@ -407,7 +407,7 @@ const chapter1: Chapter = {
           isCorrect: false,
           explanation:
             "Spring Profile은 사용자 프로필과 관련이 없습니다. 개발(dev), 운영(prod), 테스트(test) 등 실행 환경에 따라 다른 설정을 적용하기 위한 기능입니다.",
-          effect: { knowledge: 1, hp: -15 },
+          effect: { hp: -15 },
         },
         {
           id: "wrong_8b",
@@ -416,7 +416,7 @@ const chapter1: Chapter = {
           isCorrect: false,
           explanation:
             "Spring Profile은 성능 프로파일링 도구가 아닙니다. 환경별 설정 분리 기능입니다. 성능 모니터링은 Spring Actuator나 별도의 APM 도구를 사용합니다.",
-          effect: { knowledge: 2, hp: -10 },
+          effect: { hp: -10 },
         },
       ],
     },
@@ -444,7 +444,7 @@ const chapter1: Chapter = {
 
     sage_farewell: {
       id: "sage_farewell",
-      text: '"모험가여, 이제 첫 발을 내딛었을 뿐이다. 이 왕국에는 아직 네 개의 봉인된 스프링이 남아있다."\n\n"수몰된 도서관에서는 데이터의 흐름(JPA)을, 화산의 대장간에서는 보안의 벽(Security)을, 그림자 숲에서는 소통의 방법(REST API)을, 그리고 왕의 묘소에서는 모든 것의 조화(트랜잭션)를 배우게 될 것이다."\n\n"오늘 배운 여덟 가지 기초를 잊지 마라. 이것이 모든 것의 토대가 될 것이다."\n\n"건투를 빈다."',
+      text: '"모험가여, 이제 첫 발을 내딛었을 뿐이다. 이 왕국에는 아직 네 개의 봉인된 스프링이 남아있다."\n\n"수몰된 도서관에서는 데이터의 흐름(JPA)을, 망각의 탑에서는 소통의 방법(REST API)을, 봉인의 결계에서는 보안의 벽(Security)을, 그리고 왕좌의 방에서는 모든 것의 통합(아키텍처)을 배우게 될 것이다."\n\n"오늘 배운 여덟 가지 기초를 잊지 마라. 이것이 모든 것의 토대가 될 것이다."\n\n"건투를 빈다."',
       speaker: "아르카누스",
       nextSceneId: "chapter1_end",
     },

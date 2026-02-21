@@ -24,6 +24,7 @@ export function useGameState() {
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [lastChoice, setLastChoice] = useState<Choice | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
+  const [levelUpInfo, setLevelUpInfo] = useState<{ newLevel: number; newMaxHp: number } | null>(null);
 
   useEffect(() => {
     const saved = loadSave();
@@ -100,6 +101,7 @@ export function useGameState() {
       newState.level = newLevel;
       newState.maxHp = 100 + (newLevel - 1) * 10;
       newState.hp = newState.maxHp;
+      setLevelUpInfo({ newLevel, newMaxHp: newState.maxHp });
     }
 
     // Learn concept from the scene where the choice was made
@@ -161,6 +163,29 @@ export function useGameState() {
     return !!chapters[gameState.currentChapter + 1];
   }, [gameState]);
 
+  const retryChapter = useCallback(() => {
+    if (!gameState) return;
+    const chapter = chapters[gameState.currentChapter];
+    if (!chapter) return;
+    const newState: GameState = {
+      ...gameState,
+      currentSceneId: chapter.firstSceneId,
+      hp: gameState.maxHp,
+    };
+    setGameState(newState);
+    saveToDisk(newState);
+    setLastChoice(null);
+    setShowExplanation(false);
+  }, [gameState]);
+
+  const dismissLevelUp = useCallback(() => {
+    setLevelUpInfo(null);
+  }, []);
+
+  const isGameOver = useMemo(() => {
+    return gameState !== null && gameState.hp <= 0;
+  }, [gameState]);
+
   const deleteSave = useCallback(() => {
     if (typeof window === "undefined") return;
     localStorage.removeItem(SAVE_KEY);
@@ -176,6 +201,8 @@ export function useGameState() {
     currentScene,
     currentChapter,
     hasNextChapter,
+    isGameOver,
+    levelUpInfo,
     startNewGame,
     hasSave,
     loadGame,
@@ -183,6 +210,8 @@ export function useGameState() {
     proceedAfterChoice,
     advanceScene,
     startNextChapter,
+    retryChapter,
+    dismissLevelUp,
     deleteSave,
   };
 }
