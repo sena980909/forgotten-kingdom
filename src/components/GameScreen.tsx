@@ -63,7 +63,13 @@ export default function GameScreen({ onReturnToTitle }: GameScreenProps) {
     return CHAPTER_BG[gameState.currentChapter];
   }, [gameState?.currentChapter]);
 
-  if (!gameState) return null;
+  if (!gameState) {
+    return (
+      <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
+        <div className="text-zinc-500 animate-pulse text-lg">불러오는 중...</div>
+      </div>
+    );
+  }
 
   const scene = currentScene;
   const chapter = currentChapter;
@@ -94,7 +100,7 @@ export default function GameScreen({ onReturnToTitle }: GameScreenProps) {
           className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
           style={{ backgroundImage: `url(${bgImage})` }}
         >
-          <div className="absolute inset-0 bg-black/70" />
+          <div className="absolute inset-0 bg-black/50" />
         </div>
       )}
 
@@ -222,7 +228,7 @@ export default function GameScreen({ onReturnToTitle }: GameScreenProps) {
       {isGameOver && !showExplanation && (
         <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
           <div className="max-w-md w-full text-center">
-            <div className="text-6xl mb-4">💀</div>
+            <div className="text-red-500/20 text-[7rem] font-black leading-none select-none" aria-hidden="true">X</div>
             <h2 className="text-3xl font-bold text-red-500 mb-2">Game Over</h2>
             <p className="text-zinc-400 mb-2">HP가 0이 되었습니다.</p>
             <p className="text-zinc-500 text-sm mb-8">

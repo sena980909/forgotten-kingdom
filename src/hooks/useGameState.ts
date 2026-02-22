@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect, useMemo } from "react";
-import { GameState, INITIAL_GAME_STATE, SAVE_KEY, Choice } from "@/data/types";
+import { GameState, SAVE_KEY, Choice } from "@/data/types";
 import chapters from "@/data/chapters";
 
 function loadSave(): GameState | null {
@@ -43,34 +43,12 @@ export function useGameState() {
     return chapters[gameState.currentChapter] || null;
   }, [gameState]);
 
-  const startNewGame = useCallback((playerName: string) => {
-    const state: GameState = {
-      ...INITIAL_GAME_STATE,
-      playerName,
-    };
-    setGameState(state);
-    saveToDisk(state);
-    setLastChoice(null);
-    setShowExplanation(false);
-  }, []);
-
-  const hasSave = useCallback((): boolean => {
-    return loadSave() !== null;
-  }, []);
-
-  const loadGame = useCallback(() => {
-    const saved = loadSave();
-    if (saved) {
-      setGameState(saved);
-      setLastChoice(null);
-      setShowExplanation(false);
-    }
-  }, []);
 
   const makeChoice = useCallback((choice: Choice) => {
+    if (showExplanation) return;
     setLastChoice(choice);
     setShowExplanation(true);
-  }, []);
+  }, [showExplanation]);
 
   const proceedAfterChoice = useCallback(() => {
     if (!gameState || !lastChoice) return;
@@ -152,10 +130,15 @@ export function useGameState() {
       ...gameState,
       currentChapter: nextChapterId,
       currentSceneId: chapters[nextChapterId].firstSceneId,
+      chapterStartSnapshot: {
+        knowledge: gameState.knowledge,
+        level: gameState.level,
+        maxHp: gameState.maxHp,
+        learnedConcepts: [...gameState.learnedConcepts],
+      },
     };
     setGameState(newState);
     saveToDisk(newState);
-    return true;
   }, [gameState]);
 
   const hasNextChapter = useMemo(() => {
@@ -167,10 +150,19 @@ export function useGameState() {
     if (!gameState) return;
     const chapter = chapters[gameState.currentChapter];
     if (!chapter) return;
+    const snapshot = gameState.chapterStartSnapshot;
+    const baseKnowledge = snapshot?.knowledge ?? 0;
+    const baseLevel = snapshot?.level ?? 1;
+    const baseMaxHp = snapshot?.maxHp ?? 100;
     const newState: GameState = {
       ...gameState,
       currentSceneId: chapter.firstSceneId,
-      hp: gameState.maxHp,
+      knowledge: baseKnowledge,
+      level: baseLevel,
+      maxHp: baseMaxHp,
+      hp: baseMaxHp,
+      learnedConcepts: snapshot?.learnedConcepts ?? [],
+      choiceHistory: [],
     };
     setGameState(newState);
     saveToDisk(newState);
@@ -203,9 +195,6 @@ export function useGameState() {
     hasNextChapter,
     isGameOver,
     levelUpInfo,
-    startNewGame,
-    hasSave,
-    loadGame,
     makeChoice,
     proceedAfterChoice,
     advanceScene,

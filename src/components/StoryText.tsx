@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 interface StoryTextProps {
   text: string;
@@ -19,7 +19,19 @@ export default function StoryText({
 }: StoryTextProps) {
   const [displayedText, setDisplayedText] = useState("");
   const [isComplete, setIsComplete] = useState(false);
+  const onTypingCompleteRef = useRef(onTypingComplete);
+  const onCompleteRef = useRef(onComplete);
 
+  onTypingCompleteRef.current = onTypingComplete;
+  onCompleteRef.current = onComplete;
+
+  const skipTyping = useCallback(() => {
+    setDisplayedText(text);
+    setIsComplete(true);
+    onTypingCompleteRef.current?.();
+  }, [text]);
+
+  // Typing animation
   useEffect(() => {
     setDisplayedText("");
     setIsComplete(false);
@@ -31,23 +43,35 @@ export default function StoryText({
         index++;
       } else {
         setIsComplete(true);
-        onTypingComplete?.();
+        onTypingCompleteRef.current?.();
         clearInterval(interval);
       }
     }, 30);
 
     return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text]);
+
+  // Keyboard support: Space/Enter to skip typing or advance scene
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === " " || e.key === "Enter") {
+        e.preventDefault();
+        if (!isComplete) {
+          skipTyping();
+        } else if (!hasChoices) {
+          onCompleteRef.current();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isComplete, hasChoices, skipTyping]);
 
   const handleClick = () => {
     if (!isComplete) {
-      // Skip typing animation
-      setDisplayedText(text);
-      setIsComplete(true);
-      onTypingComplete?.();
+      skipTyping();
     } else if (!hasChoices) {
-      // Only advance if there are no choices (auto-advance scenes)
       onComplete();
     }
   };
@@ -56,6 +80,8 @@ export default function StoryText({
     <div
       className={`select-none ${!hasChoices || !isComplete ? "cursor-pointer" : ""}`}
       onClick={handleClick}
+      role="region"
+      aria-live="polite"
     >
       {speaker && (
         <div className="text-amber-400 font-bold mb-2 text-base sm:text-lg">{speaker}</div>
@@ -67,7 +93,7 @@ export default function StoryText({
 
       {isComplete && !hasChoices && (
         <div className="mt-4 text-zinc-500 text-sm animate-pulse">
-          클릭하여 계속...
+          클릭하거나 Enter를 눌러 계속...
         </div>
       )}
     </div>

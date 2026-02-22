@@ -4,7 +4,7 @@ export interface Choice {
   id: string;
   text: string;
   nextSceneId: string;
-  isCorrect?: boolean;
+  isCorrect: boolean;
   explanation?: string;
   effect?: {
     knowledge?: number;
@@ -31,6 +31,13 @@ export interface Chapter {
   firstSceneId: string;
 }
 
+export interface ChapterSnapshot {
+  knowledge: number;
+  level: number;
+  maxHp: number;
+  learnedConcepts: string[];
+}
+
 export interface GameState {
   playerName: string;
   currentChapter: number;
@@ -42,6 +49,7 @@ export interface GameState {
   completedChapters: number[];
   learnedConcepts: string[];
   choiceHistory: { sceneId: string; choiceId: string }[];
+  chapterStartSnapshot?: ChapterSnapshot;
 }
 
 export const INITIAL_GAME_STATE: Omit<GameState, "playerName"> = {
@@ -54,4 +62,10 @@ export const INITIAL_GAME_STATE: Omit<GameState, "playerName"> = {
   completedChapters: [],
   learnedConcepts: [],
   choiceHistory: [],
+  chapterStartSnapshot: {
+    knowledge: 0,
+    level: 1,
+    maxHp: 100,
+    learnedConcepts: [],
+  },
 };

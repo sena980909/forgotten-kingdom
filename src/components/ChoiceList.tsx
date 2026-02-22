@@ -1,7 +1,16 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Choice } from "@/data/types";
+
+function shuffleArray<T>(array: T[]): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
 
 interface ChoiceListProps {
   choices: Choice[];
@@ -14,27 +23,36 @@ export default function ChoiceList({
   onChoose,
   disabled,
 }: ChoiceListProps) {
+  // Shuffle choices so the correct answer isn't always first
+  // Use a stable key derived from choice IDs to avoid reshuffling on parent re-render
+  const choiceKey = choices.map((c) => c.id).join(",");
+  const shuffledChoices = useMemo(
+    () => shuffleArray(choices),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [choiceKey]
+  );
+
   // Keyboard support: press 1, 2, 3 to select
   useEffect(() => {
     if (disabled) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       const num = parseInt(e.key);
-      if (num >= 1 && num <= choices.length) {
-        onChoose(choices[num - 1]);
+      if (num >= 1 && num <= shuffledChoices.length) {
+        onChoose(shuffledChoices[num - 1]);
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [choices, onChoose, disabled]);
+  }, [shuffledChoices, onChoose, disabled]);
 
   return (
     <div className="flex flex-col gap-3 mt-6 animate-fade-in">
       <div className="text-zinc-500 text-sm mb-1">
         선택하세요<span className="hidden sm:inline"> (키보드 1~{choices.length})</span>:
       </div>
-      {choices.map((choice, index) => (
+      {shuffledChoices.map((choice, index) => (
         <button
           key={choice.id}
           onClick={() => !disabled && onChoose(choice)}

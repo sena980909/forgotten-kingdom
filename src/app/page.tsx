@@ -13,6 +13,13 @@ export default function Home() {
 
   useEffect(() => {
     setHasSave(localStorage.getItem(SAVE_KEY) !== null);
+
+    const handlePopState = () => {
+      setHasSave(localStorage.getItem(SAVE_KEY) !== null);
+      setScreen("title");
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
   const handleStartNew = useCallback((name: string) => {
@@ -21,10 +28,12 @@ export default function Home() {
       playerName: name,
     };
     localStorage.setItem(SAVE_KEY, JSON.stringify(initialState));
+    window.history.pushState({ screen: "game" }, "");
     setScreen("game");
   }, []);
 
   const handleContinue = useCallback(() => {
+    window.history.pushState({ screen: "game" }, "");
     setScreen("game");
   }, []);
 
