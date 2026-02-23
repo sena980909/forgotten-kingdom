@@ -52,7 +52,7 @@ export default function ExplanationModal({
             <div className="text-amber-400 text-sm font-bold mb-2">
               해설
             </div>
-            <p className="text-zinc-300 text-sm leading-relaxed">
+            <p className="text-zinc-300 text-sm leading-relaxed break-words overflow-hidden">
               {choice.explanation}
             </p>
           </div>

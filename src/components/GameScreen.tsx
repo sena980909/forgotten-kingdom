@@ -124,11 +124,11 @@ export default function GameScreen({ onReturnToTitle }: GameScreenProps) {
           )}
 
           {/* Story Text Box */}
-          <div className="bg-zinc-900/90 backdrop-blur-sm border border-zinc-800 rounded-xl p-4 sm:p-8 shadow-lg min-h-[200px]">
+          <div className="bg-zinc-900/90 backdrop-blur-sm border border-zinc-800 rounded-xl p-4 sm:p-8 shadow-lg min-h-[200px] overflow-hidden">
             {scene.isEnding ? (
               /* ===== Chapter Ending Screen ===== */
               <div>
-                <div className="text-zinc-200 leading-relaxed whitespace-pre-line text-base">
+                <div className="text-zinc-200 leading-relaxed whitespace-pre-line break-words text-base overflow-hidden">
                   {scene.text}
                 </div>
 
@@ -265,7 +265,7 @@ export default function GameScreen({ onReturnToTitle }: GameScreenProps) {
           <div className="bg-amber-900/90 border border-amber-600 rounded-xl px-6 py-3 shadow-lg shadow-amber-900/50 text-center">
             <div className="text-amber-400 font-bold text-lg">Level Up!</div>
             <div className="text-amber-300 text-sm">
-              Lv.{levelUpInfo.newLevel} 달성! HP가 {levelUpInfo.newMaxHp}으로 회복되었습니다.
+              Lv.{levelUpInfo.newLevel} 달성! HP +30 회복!
             </div>
           </div>
         </div>

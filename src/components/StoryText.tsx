@@ -87,7 +87,7 @@ export default function StoryText({
         <div className="text-amber-400 font-bold mb-2 text-base sm:text-lg">{speaker}</div>
       )}
 
-      <div className="text-zinc-200 leading-relaxed whitespace-pre-line text-base">
+      <div className="text-zinc-200 leading-relaxed whitespace-pre-line break-words text-base overflow-hidden">
         {displayedText}
       </div>
 

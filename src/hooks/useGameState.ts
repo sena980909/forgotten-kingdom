@@ -78,7 +78,7 @@ export function useGameState() {
     if (newLevel > newState.level) {
       newState.level = newLevel;
       newState.maxHp = 100 + (newLevel - 1) * 10;
-      newState.hp = newState.maxHp;
+      newState.hp = Math.min(newState.hp + 30, newState.maxHp);
       setLevelUpInfo({ newLevel, newMaxHp: newState.maxHp });
     }
 

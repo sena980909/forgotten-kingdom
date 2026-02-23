@@ -57,7 +57,7 @@ export default function ChoiceList({
           key={choice.id}
           onClick={() => !disabled && onChoose(choice)}
           disabled={disabled}
-          className={`text-left px-5 py-4 rounded-lg border transition-all duration-200 ${
+          className={`text-left px-5 py-4 rounded-lg border transition-all duration-200 break-words overflow-hidden ${
             disabled
               ? "opacity-50 cursor-not-allowed border-zinc-700 bg-zinc-800/50"
               : "border-amber-900/40 bg-zinc-800/60 hover:bg-amber-900/20 hover:border-amber-500/60 cursor-pointer active:scale-[0.98]"
